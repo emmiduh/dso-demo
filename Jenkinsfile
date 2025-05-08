@@ -39,7 +39,14 @@ pipeline {
 	  steps {
 	    container('licensefinder') {
 	      sh 'ls -la'
-              sh 'bash -lc "rvm use default && gem install license_finder && license_finder"'
+	      sh '''
+		bash -lc "
+		rvm use default &&
+    		gem install license_finder &&
+    		chmod +x ./mvnw &&
+    		./mvnw org.codehaus.mojo:license-maven-plugin:download-licenses &&
+    		license_finder"
+		'''
 	    }
 	  }
 	}
