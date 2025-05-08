@@ -50,10 +50,11 @@ spec:
     - name: jenkins-docker-cfg
       projected:
         sources:
-          - name: regcred
-            items:
-              - key: .dockerconfigjson
-                path: config.json
+          - secret:
+              name: regcred
+              items:
+                - key: .dockerconfigjson
+                  path: config.json
     - name: m2
       hostPath:
         path: /tmp/.m2/
