@@ -58,15 +58,15 @@ pipeline {
           }
         }
 	stage('SAST') {
-          steps {
-            container('slscan') {
-                sh 'scan --type java,depscan --build'
+            steps {
+              container('slscan') {
+                  sh 'scan --type java,depscan --build'
                 }
               }
-          post {
-            success {
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: t>
-                }
+            post {
+                success {
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
+		}
            }
         }
 
