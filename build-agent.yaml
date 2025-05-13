@@ -3,9 +3,7 @@ kind: Pod
 metadata:
   labels:
     app: spring-build-ci
-spec:
-  nodeSelector:
-    node-label: build-agent-node 
+spec: 
   containers:
     - name: maven
       image: maven:3.8.4-openjdk-17
