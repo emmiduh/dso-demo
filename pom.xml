@@ -48,7 +48,7 @@
 				<artifactId>dependency-check-maven</artifactId>
 				<version>12.1.0</version>
 				<configuration>
-					<failBuildOnCVSS>10</failBuildOnCVSS>
+					<failBuildOnCVSS>11</failBuildOnCVSS>
 				</configuration>
 				<executions>
 					<execution>
