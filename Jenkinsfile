@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Static Analysis') {
       parallel {
-	stage('SCA') {
+	stage('Software Component Analysis') {
 	  steps {
 	    container('maven') {
 	      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -32,6 +32,19 @@ pipeline {
 	    always {
 	      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
 	      // dependencyCheckPublisher pattern: 'report.xml'
+	    }
+	  }
+	}
+
+	stage('Static Application Security Testing') {
+	  steps {
+	    container('slscan') {
+	      sh 'scan --type java,depscan --build'
+	    }
+	  }
+          post {
+	    success {
+	      archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
 	    }
 	  }
 	}
