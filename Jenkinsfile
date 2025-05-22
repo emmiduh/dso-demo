@@ -67,9 +67,11 @@ pipeline {
 	  steps {
 	    container('licensefinder') {
 	      sh '''
+		 /bin/bash --login -c "
 		 export LICENSE_FINDER_IGNORE_MAVEN_WRAPPER=true
+		 rvm use default
 		 gem install license_finder
-		 license_finder
+		 license_finder "
 		 '''
 	      }
 	    }
