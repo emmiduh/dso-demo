@@ -13,6 +13,12 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
+    - name: slscan
+      image: shiftleft/sast-scan:v2.1.2
+      imagePullPolicy: Always
+      command:
+        - cat
+      tty: true
     - name: docker-tools
       image: rmkanda/docker-tools:latest
       command:
