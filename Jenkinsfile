@@ -86,6 +86,7 @@ pipeline {
         }
       }
     }
+
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
@@ -102,6 +103,25 @@ pipeline {
             }
           }
         }
+      }
+    }
+
+    stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+	  steps {
+	    container('docker-tools') {
+	      sh 'dockle --timeout 600s docker.io/emmiduh93/dso-demo'
+	    }
+	  }
+	}
+	stage('Image Scan') {
+	  steps {
+	    container('docker-tools') {
+	      sh 'trivy image --timeout 10m --exit-code 1 emmiduh93/dso-demo'
+	    }
+	  }
+	}
       }
     }
 
