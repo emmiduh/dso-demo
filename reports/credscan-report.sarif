@@ -1,0 +1,75 @@
+{
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Secrets Audit",
+          "version": "1.0.0-scan",
+          "fullName": "Secrets Audit"
+        }
+      },
+      "conversion": {
+        "tool": {
+          "driver": {
+            "name": "@ShiftLeft/sast-scan"
+          }
+        },
+        "invocation": {
+          "arguments": [
+            "--config-path=/usr/local/src/lib/../credscan-config.toml",
+            "--path=/app",
+            "--leaks-exit-code=0",
+            "--no-git",
+            "--report=/app/reports/credscan-report.json"
+          ],
+          "executionSuccessful": true,
+          "commandLine": "--config-path=/usr/local/src/lib/../credscan-config.toml --path=/app --leaks-exit-code=0 --no-git --report=/app/reports/credscan-report.json",
+          "endTimeUtc": "2025-05-21T23:49:43Z",
+          "workingDirectory": {
+            "uri": "file:///home/emmy/dso-demo"
+          }
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "endTimeUtc": "2025-05-21T23:49:43Z",
+          "workingDirectory": {
+            "uri": "file:///home/emmy/dso-demo"
+          }
+        }
+      ],
+      "properties": {
+        "metrics": {
+          "total": 0,
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        }
+      },
+      "results": [],
+      "automationDetails": {
+        "description": {
+          "text": "Static Analysis Security Test results using @ShiftLeft/sast-scan"
+        },
+        "guid": "4460079c-e936-4da8-8250-de5a0f2717c4"
+      },
+      "versionControlProvenance": [
+        {
+          "branch": "main",
+          "repositoryUri": "https://github.com/emmiduh/dso-demo",
+          "revisionId": "c4579795bff47f33535f216f5fa396be97fca57d"
+        }
+      ]
+    }
+  ],
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "inlineExternalProperties": [
+    {
+      "guid": "4460079c-e936-4da8-8250-de5a0f2717c4",
+      "runGuid": "3923bf53-c332-4e79-af68-0e5fd5068a05"
+    }
+  ]
+}
