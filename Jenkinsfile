@@ -1,6 +1,7 @@
 pipeline {
   environment {
     ARGO_SERVER = '34.59.149.162:32100'
+    GITHUB_TOKEN = credentials('githun-token')
     DEV_URL = 'http://34.59.149.162:30080/'
   }
   agent {
