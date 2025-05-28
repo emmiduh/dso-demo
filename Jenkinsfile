@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    ARGO_SERVER = '104.197.57.182:32100'
+    ARGO_SERVER = '34.59.149.162:32100'
     DEV_URL = 'http://104.197.57.182:30080/'
   }
   agent {
