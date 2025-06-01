@@ -1,24 +1,24 @@
-# Secure Pipelines Demo
+# DevSecOps CI/CD Pipeline on Kubernetes with Jenkins, Helm, and ArgoCD
 
-Sample spring application with Jenkins pipeline script to demonstrate secure pipelines
+## Overview
 
-## Pre Requesites
+This project demonstrates as sample spring application with complete **DevSecOps workflow** built on top of a Kubernetes cluster using **Google Kubernetes Engine (GKE)**. It covers automated Continuous Integration (CI), security scanning, and Continuous Delivery (CD) using Jenkins pipeline and aaplication security best practices.
 
-- minikube v1.18.1 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-- helm v3.5.3 - [Refer here for installation](https://helm.sh/docs/intro/install/)
+## Key Features
 
-## Setup Setps
+### Kubernetes Setup
+- Provisioned a **GKE Cluster** on Google Cloud.
+- Configured local `kubectl` and `gcloud` for secure cluster access.
+- Installed and managed applications using **Helm**.
 
-### Minikube setup
-
-- Setup minikube
-  ```s
-  minikube start --nodes=1 --cpus=4 --memory 8192 --disk-size=35g --embed-certs=true --driver=hyperkit
-  ```
+### Jenkins CI/CD Pipeline
+- Installed Jenkins using Helm on Kubernetes.
+- Configured pipelines with `Jenkinsfile` for automated builds.
+- Used **Kaniko** for container image building and publishing (without Docker daemon).
 
 ### Jenkins setup
 
-- Stup Jenkins server
+- Setup Jenkins server
 
   ```s
   helm repo add jenkins https://charts.jenkins.io
@@ -34,13 +34,6 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
   ```
 
   **Note:** Make a note of the password
-
-- [Optional] Forward Jenkins server port to access from local machine
-
-  ```s
-  kubectl port-forward svc/jenkins 8080:8080
-  open http://localhost:8080
-  ```
 
 - Add additonal plugins to Jeninks server (Manage Jenkins -> Manage plugins)
 
@@ -62,16 +55,38 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 Hint: URL (if you have followed the exact steps) http://dependency-track-apiserver.dependency-track.svc.cluster.local
 
-### New Jenkins Pipeline
+### Security Integration (DevSecOps)
+- Integrated **OWASP Dependency-Check** for Software Component Analysis (SCA).
+- Scanned open-source dependencies for license compliance and vulnerabilities.
+- Generated a **Software Bill of Materials (SBOM)**.
+- Used **Bandit** to analyze Python projects for security issues.
+- Included **Spring Boot** dependency upgrades to fix CVEs.
 
-Create a new Jenkins pipeline with this repo and trigger build
+### Container Image Hardening
+- Used **Dockle** to lint container images for security best practices.
+- Scanned images with **Trivy** to identify known vulnerabilities.
+- Optimized Dockerfile using **multi-stage builds**.
+- Added non-root user and health checks for secure container practices.
 
-- Login to Jenkins -> New Item -> Enter name and choose Pipeline -> Choose GitHub project and set project URL
-- Under pipeline section, Choose Pipeline script from SCM
-- Choose git as SCM and provide repo details
-- Save
+### Continuous Deployment with ArgoCD
+- Installed and configured **ArgoCD** for GitOps-based deployments.
+- Set up **CLI access and RBAC** to manage and secure ArgoCD.
+- Configured Jenkins to **trigger ArgoCD deployments** automatically after successful builds.
+- Deployed applications to Kubernetes using **generated manifests**.
 
-# Pipeline
+## Tools & Technologies
+
+| Category           | Tools / Platforms                    |
+|--------------------|--------------------------------------|
+| Cloud              | Google Cloud Platform (GKE)          |
+| CI/CD              | Jenkins, Jenkinsfile, Kaniko         |
+| GitOps/CD          | ArgoCD                               |
+| Kubernetes         | GKE, Helm, kubectl                   |
+| Security Scanning  | OWASP-Dependency-Check, Trivy, ZAP,  |
+|                    | Dockle 				    |
+| Programming        | Java (Spring Boot), Python           |
+| Containerization   | Docker, Dockerfile (multi-stage)     |
+
 
 Refer the below screenshot for the stages in the pipeline
 
@@ -79,7 +94,7 @@ Refer the below screenshot for the stages in the pipeline
 
 ![Pipeline View](imgs/Secure_Pipeline_1.png)
 
-##### Stage View
+##### ArgCD Dashboard
 
 ![Stage View](imgs/Secure_Pipeline_2.png)
 
@@ -87,23 +102,3 @@ Refer the below screenshot for the stages in the pipeline
 
 ![Dependency Track View](imgs/Dependency_Track.png)
 
-## Tools
-
-| Stage               | Tool                                                                      |
-| ------------------- | ------------------------------------------------------------------------- |
-| Secrets Scanner     | [truffleHog](https://github.com/dxa4481/truffleHog)                       |
-| Dependency Checker  | [OWASP Dependency checker](https://jeremylong.github.io/DependencyCheck/) |
-| SAST                | [OWASP Find Security Bugs](https://find-sec-bugs.github.io/)              |
-| OSS License Checker | [LicenseFinder](https://github.com/pivotal/LicenseFinder)                 |
-| SCA                 | [Dependency Track](https://dependencytrack.org/)                          |
-| Image Scanner       | [Trivy](https://github.com/aquasecurity/trivy)                            |
-| Image Hardening     | [Dockle](https://github.com/goodwithtech/dockle)                          |
-| K8s Hardening       | [KubeSec](https://kubesec.io/)                                            |
-| IaC Hardening       | [checkov](https://www.checkov.io/)                                        |
-| DAST                | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) |
-
----
-
-### TODO
-
-Image Malware scanning - [ClamAV](https://github.com/openbridge/clamav)
