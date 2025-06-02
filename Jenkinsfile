@@ -74,6 +74,7 @@ pipeline {
 	      sh '''
 		 /bin/bash --login -c "
 		 export LICENSE_FINDER_IGNORE_MAVEN_WRAPPER=true
+		 export PATH=/usr/share/maven/bin:$PATH
 		 rvm use default
 		 gem install license_finder
 		 license_finder "
