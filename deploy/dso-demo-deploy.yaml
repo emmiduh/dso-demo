@@ -17,11 +17,28 @@ spec:
       labels:
         app: dso-demo
     spec:
+      automountServiceAccountToken: false
+      serviceAccountName: dso-demo
+      volumes:
+        - name: tmp
+          emptyDir: {}
       containers:
       - image: emmiduh93/dso-demo
         name: dso-demo
+        volumeMounts:
+          - name: tmp
+            mountPath: /tmp
         ports:
         - containerPort: 8080
+        securityContext:
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
         resources:
           requests:
             cpu: "50m"
