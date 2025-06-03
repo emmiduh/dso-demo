@@ -88,7 +88,7 @@ pipeline {
       }
       post {
         success {
-          archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: t>
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
         }
       }
     }
