@@ -40,19 +40,6 @@ pipeline {
 	    }
 	  }
 	}
-
-	stage('Static Application Security Testing') {
-	  steps {
-	    container('slscan') {
-	      sh 'scan --type java,depscan --build'
-	    }
-	  }
-          post {
-	    success {
-	      archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
-	    }
-	  }
-	}
 	
 	stage('Generate SBOM') {
 	  steps {
@@ -89,6 +76,19 @@ pipeline {
               sh 'mvn test'
             }
           }
+        }
+      }
+    }
+
+    stage('Static Application Security Testing') {
+      steps {
+        container('slscan') {
+          sh 'scan --type java,depscan --build'
+        }
+      }
+      post {
+        success {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: t>
         }
       }
     }
